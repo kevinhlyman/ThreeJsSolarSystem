@@ -9,7 +9,7 @@ const earthMaterial = new  THREE.MeshPhongMaterial({
   shininess: 1,
   map: textureLoader.load("textures/earth-texture.jpg"),
   bumpMap: textureLoader.load('textures/earth-bump-map.jpg'),
-  bumpScale: 1
+  bumpScale: 1.5
 });
 const earth = new THREE.Mesh(earthGeometry, earthMaterial);
 

@@ -4,11 +4,9 @@ import * as THREE from 'three';
 const textureLoader = new THREE.TextureLoader();
 
 const planetGeometry = new THREE.SphereGeometry(1, 32, 32);
-const planetMaterial = new THREE.MeshStandardMaterial({
-  color: 0xff0000,
-  roughness: 1,
-  metalness: 0,
-  map: textureLoader.load("../textures/mars-texture.jpg"),
+const planetMaterial = new THREE.MeshPhongMaterial({
+  shininess: 1,
+  map: textureLoader.load("../textures/mercury-texture.jpg"),
 });
 const mercury = new THREE.Mesh(planetGeometry, planetMaterial);
 const planetPosition = new THREE.Vector3(10, 0, 0);

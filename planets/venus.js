@@ -1,0 +1,29 @@
+import * as THREE from 'three';
+
+//Create a texture loader
+const textureLoader = new THREE.TextureLoader();
+
+const planetGeometry = new THREE.SphereGeometry(1.5, 32, 32);
+const planetMaterial = new THREE.MeshPhongMaterial({
+  shininess: 1,
+  map: textureLoader.load("../textures/venus-texture.jpg"),
+});
+const venus = new THREE.Mesh(planetGeometry, planetMaterial);
+const planetPosition = new THREE.Vector3(10, 0, 0);
+venus.position.copy(planetPosition);
+
+function updateVenusPosition(time) {
+  const orbitRadius = 17;
+  const orbitSpeed = 0.9;
+  const angle = time * orbitSpeed; // Angle of rotation around the sun
+  const planetX = Math.cos(angle) * orbitRadius;
+  const planetZ = Math.sin(angle) * orbitRadius;
+  venus.position.set(planetX, 0, planetZ); // Update planet position
+}
+
+function updateVenusRotation(time) {
+  const rotationSpeed = 0.02;
+  venus.rotation.y += rotationSpeed; // Rotate planet on y-axis
+}
+
+export { venus, updateVenusPosition, updateVenusRotation };
