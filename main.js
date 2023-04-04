@@ -20,7 +20,7 @@ const camera = new THREE.PerspectiveCamera(
 const textureLoader = new THREE.TextureLoader();
 
 //Create a background
-const bgGeometry = new THREE.SphereGeometry(100,32,32);
+const bgGeometry = new THREE.SphereGeometry(200,32,32);
 const bgMaterial = new THREE.MeshStandardMaterial({
   map: textureLoader.load("textures/background.jpg"),
   side: THREE.BackSide, //Texture the inside of the sphere
@@ -98,11 +98,17 @@ renderer.setPixelRatio(window.devicePixelRatio);
 const appElement = document.getElementById('app');
 appElement.appendChild(renderer.domElement);
 
+//Add in OrbitControls for amera, not to be confused with planet orbit controlling
+const controls = new OrbitControls(camera,renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+
 // Resize renderer and update camera aspect ratio when window is resized
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  controls.update();
 }
 window.addEventListener('resize', onWindowResize);
 
@@ -111,6 +117,14 @@ const theSunArrPosition = 0;
 let focusPoint = sessionStorage.getItem('space-project') ? sessionStorage.getItem('space-project') : 0;
 let spheres = [sunSphere,mercury,venus,earth,mars];//should move celestial bodies to their own files and create them from here and put them in this array
 
+//For when the user wants to drive around the solar system
+let enableSelfDrive = false;
+const selfDriveButton = document.getElementById("selfDrive");
+selfDriveButton.addEventListener('click', () => {
+  enableSelfDrive = !enableSelfDrive;
+});
+
+//focusing the camera on specific planets
 const focusButton = document.getElementById("toggleFocus");
 focusButton.addEventListener('click', () => {
   //This is going to be yucky to start with
@@ -128,6 +142,9 @@ function animate() {
 
   // Update planet's position based on time
   const time = Date.now() * 0.001; // Convert time to seconds
+
+  //Update the Sun
+  sunSphere.rotation.y += 0.01;
 
   //Update Mercury
   updateMercuryPosition(time);
@@ -164,27 +181,31 @@ function animate() {
   // const moonZ = Math.sin(moonAngle) * moonOrbitRadius;
   // moonSphere.position.set(moonX, 0, moonZ);
 
-  //Rotate the camera around a Celestial body
-  if (focusPoint === theSunArrPosition)
+  if(enableSelfDrive)
   {
-    const cameraRadius = 50;
-    const sunAngle = time * 0.1;
-    //rotate camera in the opposite direction as the planets
-    const cameraX = -1 * Math.cos(sunAngle) * cameraRadius;
-    const cameraZ = Math.sin(sunAngle) * cameraRadius;
-    camera.position.set(cameraX, 20, cameraZ);
-    //Look at the sun, instead of manually rotating the camera to look down
-    camera.lookAt(sunSphere.position);
-    
+    controls.update();
   }else{
-    const cameraRadius = 20;
-    const cameraX = spheres[focusPoint].position.x + cameraRadius;
-    const cameraZ = spheres[focusPoint].position.z + cameraRadius;
-    camera.position.set(cameraX, 10, cameraZ);
-    camera.lookAt(spheres[focusPoint].position);
+    //Rotate the camera around a Celestial body
+    if (focusPoint === theSunArrPosition)
+    {
+      const cameraRadius = 50;
+      const sunAngle = time * 0.1;
+      //rotate camera in the opposite direction as the planets
+      const cameraX = -1 * Math.cos(sunAngle) * cameraRadius;
+      const cameraZ = Math.sin(sunAngle) * cameraRadius;
+      camera.position.set(cameraX, 20, cameraZ);
+      //Look at the sun, instead of manually rotating the camera to look down
+      camera.lookAt(sunSphere.position);
+      
+    }else{
+      const cameraRadius = 20;
+      const cameraX = spheres[focusPoint].position.x + cameraRadius;
+      const cameraZ = spheres[focusPoint].position.z + cameraRadius;
+      camera.position.set(cameraX, 10, cameraZ);
+      camera.lookAt(spheres[focusPoint].position);
+    }
   }
-
-
+  
   // Render the scene
   renderer.render(scene, camera);
 }
