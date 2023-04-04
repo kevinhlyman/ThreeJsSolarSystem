@@ -1,0 +1,30 @@
+body {
+  background: #2b2b2b;
+  /*background-image: url('https://c1.wallpaperflare.com/preview/430/227/672/milky-way-starry-sky-night-sky-star.jpg');*/
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: Helvetica neue, roboto;
+  overflow-y: hidden;
+  padding:0;
+  position:relative;
+}
+
+h1 {
+  color: #bdbdbd;
+  font-weight: 300;
+}
+
+#app{
+  overflow-x:hidden;
+}
+
+#nav{
+  position:absolute;
+  top:0;
+  left:0;
+  padding:1rem;
+}
