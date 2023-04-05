@@ -13,14 +13,14 @@ const camera = new THREE.PerspectiveCamera(
   45,
   window.innerWidth / window.innerHeight,
   0.1,
-  1000
+  2000
 );
 
 //Create a texture loader
 const textureLoader = new THREE.TextureLoader();
 
 //Create a background
-const bgGeometry = new THREE.SphereGeometry(200,32,32);
+const bgGeometry = new THREE.SphereGeometry(400,32,32);
 const bgMaterial = new THREE.MeshStandardMaterial({
   map: textureLoader.load("textures/background.jpg"),
   side: THREE.BackSide, //Texture the inside of the sphere
@@ -127,7 +127,9 @@ selfDriveButton.addEventListener('click', () => {
 //focusing the camera on specific planets
 const focusButton = document.getElementById("toggleFocus");
 focusButton.addEventListener('click', () => {
-  //This is going to be yucky to start with
+  //Turn of self drive
+  enableSelfDrive = false;
+  //Now look at something
   let tempFocusPoint = focusPoint + 1;
   if (tempFocusPoint >= spheres.length) {tempFocusPoint = theSunArrPosition;}
   focusPoint = tempFocusPoint;
@@ -144,7 +146,7 @@ function animate() {
   const time = Date.now() * 0.001; // Convert time to seconds
 
   //Update the Sun
-  sunSphere.rotation.y += 0.01;
+  sunSphere.rotation.y -= 0.01;
 
   //Update Mercury
   updateMercuryPosition(time);
