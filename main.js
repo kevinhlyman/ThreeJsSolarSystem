@@ -146,7 +146,7 @@ function animate() {
   const time = Date.now() * 0.001; // Convert time to seconds
 
   //Update the Sun
-  sunSphere.rotation.y -= 0.01;
+  sunSphere.rotation.y += 0.01;
 
   //Update Mercury
   updateMercuryPosition(time);
