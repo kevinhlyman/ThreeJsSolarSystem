@@ -15,7 +15,7 @@ mars.position.copy(planetPosition);
 function updateMarsPosition(time) {
   const orbitRadius = 35;
   const orbitSpeed = 1.8;
-  const angle = time * orbitSpeed; // Angle of rotation around the sun
+  const angle = time * -orbitSpeed; // Angle of rotation around the sun. Make it negative to rotate counter clockwise
   const planetX = Math.cos(angle) * orbitRadius;
   const planetZ = Math.sin(angle) * orbitRadius;
   mars.position.set(planetX, 0, planetZ); // Update planet position

@@ -30,7 +30,7 @@ earth.position.copy(earthPosition);
 function updateEarthPosition(time) {
   const orbitRadius = 30;
   const orbitSpeed = 1;
-  const angle = time * orbitSpeed; // Angle of rotation around the sun
+  const angle = time * -orbitSpeed; // Angle of rotation around the sun. Make it negative to rotate counter clockwise
   const planetX = Math.cos(angle) * orbitRadius;
   const planetZ = Math.sin(angle) * orbitRadius;
   earth.position.set(planetX, 0, planetZ); // Update planet position
