@@ -11,6 +11,7 @@ import { jupiter, updateJupiterPosition, updateJupiterRotation } from '/planets/
 import { saturn, updateSaturnPosition, updateSaturnRotation } from '/planets/saturn.js';
 import { uranus, updateUranusPosition, updateUranusRotation } from '/planets/uranus.js';
 import { neptune, updateNeptunePosition, updateNeptuneRotation } from '/planets/neptune.js';
+import { pluto, updatePlutoPosition, updatePlutoRotation } from '/planets/pluto.js';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -43,24 +44,17 @@ const sunMaterial = new THREE.MeshStandardMaterial({
 });
 const sunSphere = new THREE.Mesh(sunGeometry, sunMaterial);
 
-// Add sun sphere to scene
+// Add in spheres to scene
 scene.add(sunSphere);
-//Add in "mercury"
 scene.add(mercury);
-//Add in "venus"
 scene.add(venus);
-//Add in "earth"
 scene.add(earth);
-//Add in "mars"
 scene.add(mars);
-//Add in "jupiter"
 scene.add(jupiter);
-//Add in saturn
 scene.add(saturn);
-//Add in uranus
 scene.add(uranus);
-//Add in neptune
 scene.add(neptune);
+scene.add(pluto);
 
 // Create ambient light to provide overall lighting
 const ambientLight = new THREE.AmbientLight(0xcccccc, 0.6);
@@ -100,7 +94,7 @@ window.addEventListener('resize', onWindowResize);
 //Where should the camera look?
 const theSunArrPosition = 0;
 let focusPoint = sessionStorage.getItem('space-project') ? sessionStorage.getItem('space-project') : 0;
-let spheres = [sunSphere,mercury,venus,earth,mars,jupiter,saturn,uranus,neptune];//should move celestial bodies to their own files and create them from here and put them in this array
+let spheres = [sunSphere,mercury,venus,earth,mars,jupiter,saturn,uranus,neptune,pluto];//should move celestial bodies to their own files and create them from here and put them in this array
 
 //For when the user wants to drive around the solar system
 let enableSelfDrive = false;
@@ -164,6 +158,10 @@ function animate() {
   //Update Neptune
   updateNeptunePosition(time);
   updateNeptuneRotation(time);
+
+  //Update Pluto
+  updatePlutoPosition(time);
+  updatePlutoRotation(time);
 
   if(enableSelfDrive)
   {
