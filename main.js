@@ -9,6 +9,7 @@ import { earth, updateEarthRotation, updateEarthPosition } from '/planets/earth.
 import { mars, updateMarsPosition, updateMarsRotation } from '/planets/mars.js';
 import { jupiter, updateJupiterPosition, updateJupiterRotation } from '/planets/jupiter.js';
 import { saturn, updateSaturnPosition, updateSaturnRotation } from '/planets/saturn.js';
+import { uranus, updateUranusPosition, updateUranusRotation } from '/planets/uranus.js';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -55,6 +56,8 @@ scene.add(mars);
 scene.add(jupiter);
 //Add in saturn
 scene.add(saturn);
+//Add in uranus
+scene.add(uranus);
 
 // Create ambient light to provide overall lighting
 const ambientLight = new THREE.AmbientLight(0xcccccc, 0.6);
@@ -94,7 +97,7 @@ window.addEventListener('resize', onWindowResize);
 //Where should the camera look?
 const theSunArrPosition = 0;
 let focusPoint = sessionStorage.getItem('space-project') ? sessionStorage.getItem('space-project') : 0;
-let spheres = [sunSphere,mercury,venus,earth,mars,jupiter,saturn];//should move celestial bodies to their own files and create them from here and put them in this array
+let spheres = [sunSphere,mercury,venus,earth,mars,jupiter,saturn,uranus];//should move celestial bodies to their own files and create them from here and put them in this array
 
 //For when the user wants to drive around the solar system
 let enableSelfDrive = false;
@@ -151,6 +154,9 @@ function animate() {
   updateSaturnPosition(time);
   updateSaturnRotation(time);
 
+  // Update Uranus
+  updateUranusPosition(time);
+  updateUranusRotation(time);
 
   if(enableSelfDrive)
   {
