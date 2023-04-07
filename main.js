@@ -7,6 +7,7 @@ import { mercury, updateMercuryPosition, updateMercuryRotation } from '/planets/
 import { venus, updateVenusPosition, updateVenusRotation } from '/planets/venus.js';
 import { earth, updateEarthRotation, updateEarthPosition } from '/planets/earth.js';
 import { mars, updateMarsPosition, updateMarsRotation } from '/planets/mars.js';
+import { jupiter, updateJupiterPosition, updateJupiterRotation } from '/planets/jupiter.js';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -49,33 +50,8 @@ scene.add(venus);
 scene.add(earth);
 //Add in "mars"
 scene.add(mars);
-
-// //Create a second planet sphere
-// const planetGeometry2 = new THREE.SphereGeometry(1.5, 32, 32);
-// const planetMaterial2 = new THREE.MeshPhongMaterial({
-//   color: 0x00ff00,
-//   shininess: 1,
-//   map: textureLoader.load("textures/grass-texture.jpg"),
-// });
-// const planetSphere2 = new THREE.Mesh(planetGeometry2, planetMaterial2);
-// //Set planet2's initial position
-// const planetPosition2 = new THREE.Vector3(10, 0, 0);
-// planetSphere2.position.copy(planetPosition2);
-// scene.add(planetSphere2);
-
-// // Create moon sphere
-// const moonGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-// const moonMaterial = new THREE.MeshPhongMaterial({
-//   color: 0xffffff,
-//   shininess: 1,
-//   map: textureLoader.load("textures/moon-texture.jpg"),
-// });
-// const moonSphere = new THREE.Mesh(moonGeometry, moonMaterial);
-// // Set moon's initial position
-// const moonPosition = new THREE.Vector3(0, 0, 0);
-// moonSphere.position.copy(moonPosition);
-// // Add moon sphere to planetSphere2
-// planetSphere2.add(moonSphere);
+//Add in "jupiter"
+scene.add(jupiter);
 
 // Create ambient light to provide overall lighting
 const ambientLight = new THREE.AmbientLight(0xcccccc, 0.6);
@@ -115,7 +91,7 @@ window.addEventListener('resize', onWindowResize);
 //Where should the camera look?
 const theSunArrPosition = 0;
 let focusPoint = sessionStorage.getItem('space-project') ? sessionStorage.getItem('space-project') : 0;
-let spheres = [sunSphere,mercury,venus,earth,mars];//should move celestial bodies to their own files and create them from here and put them in this array
+let spheres = [sunSphere,mercury,venus,earth,mars,jupiter];//should move celestial bodies to their own files and create them from here and put them in this array
 
 //For when the user wants to drive around the solar system
 let enableSelfDrive = false;
@@ -164,24 +140,9 @@ function animate() {
   updateMarsPosition(time);
   updateMarsRotation(time);
   
-  // //Update planet 2's position
-  // const orbitRadius2 = 17;
-  // const orbitSpeed2 = 0.9;
-  // const siderealSpeed2 = -2;
-  // const angle2 = time * orbitSpeed2;
-  // const planetX2 = Math.cos(angle2) * orbitRadius2;
-  // const planetZ2 = Math.sin(angle2) * orbitRadius2;
-  // planetSphere2.position.set(planetX2, 0, planetZ2);
-  // const planet2Angle = siderealSpeed2 * time;
-  // planetSphere2.rotation.y = planet2Angle;
-  
-  // // Rotate moon around planetSphere2
-  // const moonOrbitRadius = 3;
-  // const moonOrbitSpeed = -4;
-  // const moonAngle = time * moonOrbitSpeed;
-  // const moonX = Math.cos(moonAngle) * moonOrbitRadius;
-  // const moonZ = Math.sin(moonAngle) * moonOrbitRadius;
-  // moonSphere.position.set(moonX, 0, moonZ);
+  // Update Jupiter
+  updateJupiterPosition(time);
+  updateJupiterRotation(time);
 
   if(enableSelfDrive)
   {
